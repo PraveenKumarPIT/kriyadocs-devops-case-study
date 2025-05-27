@@ -1,0 +1,17 @@
+---
+- name: Simulate AWS VPC and EC2 provisioning
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Simulate VPC creation
+      debug:
+        msg: "Would create a VPC using ec2_vpc_net"
+
+    - name: Simulate EC2 provisioning
+      debug:
+        msg: "Would create an EC2 instance using amazon.aws.ec2"
+
+    - name: Simulate installing packages on EC2
+      debug:
+        msg: "Would install Node.js, Python, PHP, Docker, Nginx on EC2"

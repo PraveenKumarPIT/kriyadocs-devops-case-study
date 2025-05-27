@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t node-app ./src/node-app'
+                sh 'docker build -t python-app ./src/python-app'
+                sh 'docker build -t php-app ./src/php-app'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'helm upgrade --install kriyadocs ./helm/kriyadocs-stack'
+            }
+        }
+    }
+}
+
