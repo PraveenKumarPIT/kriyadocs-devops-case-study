@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    environment {
+        KUBECONFIG = "/Users/praveen.s/.jenkins/kube/config"
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -8,6 +13,7 @@ pipeline {
                 sh 'docker build -t php-app ./src/php-app'
             }
         }
+
         stage('Deploy') {
             steps {
                 sh 'helm upgrade --install kriyadocs ./helm/kriyadocs-stack'
