@@ -1,6 +1,8 @@
 # Kriyadocs DevOps Case Study
 
-This repo simulates a full DevOps pipeline using Ansible, Jenkins, Docker, Helm, and Kubernetes.
+This repo simulates a full DevOps pipeline using **Ansible**, **Jenkins**, **Docker**, **Helm**, and **Kubernetes**.
+
+---
 
 ## Stack Simulated
 
@@ -10,6 +12,8 @@ This repo simulates a full DevOps pipeline using Ansible, Jenkins, Docker, Helm,
 - Deployed via Helm to local Minikube K8s cluster
 - Docker-based builds
 - Rancher-ready (optional)
+
+---
 
 ## Overview
 
@@ -35,10 +39,13 @@ This repository demonstrates a DevOps solution using **Ansible**, **Jenkins**, *
 
 ```bash
 minikube start
+````
 
+---
 
-**2. Deploy Jenkins on Minikube**
+### 2. Deploy Jenkins on Minikube
 
+```bash
 kubectl create namespace jenkins
 
 helm repo add jenkins https://charts.jenkins.io
@@ -50,33 +57,64 @@ helm install jenkins jenkins/jenkins -n jenkins \
 
 kubectl get svc -n jenkins jenkins
 minikube ip
+```
 
-**3. Deploy the Kriyadocs Application Stack via Helm**
+Access Jenkins UI at:
+`http://<minikube-ip>:<node-port>`
 
+Login credentials:
+
+* **Username:** `admin`
+* **Password:** `admin123`
+
+---
+
+### 3. Deploy the Kriyadocs Application Stack via Helm
+
+```bash
 helm install kriyadocs-stack ./helm -n kriyadocs --create-namespace
 
 kubectl get pods -n kriyadocs
 kubectl get svc -n kriyadocs
+```
 
+---
 
-**4. Access Applications**
+### 4. Access Applications
 
+To access any deployed app (e.g., NodeJS, Python, PHP):
+
+```bash
 kubectl port-forward svc/<service-name> 8080:80 -n kriyadocs
-  ## Replace <service-name> with the specific app service (NodeJS, Python, PHP).
+```
 
-**5. Run Jenkins Pipeline**
+Visit in browser:
+[http://localhost:8080](http://localhost:8080)
 
-Access Jenkins UI
-Check for pipeline job named kriyadocs-pipeline
-Run the pipeline and verify deployment logs
+> Replace `<service-name>` with the actual Kubernetes service name.
 
-**Ansible Playbooks**
-Currently, only local playbooks are included for environment setup.
-AWS provisioning playbooks are omitted due to lack of AWS access.
+---
 
+### 5. Run Jenkins Pipeline
+
+* Access Jenkins UI.
+* Locate the pipeline job named `kriyadocs-pipeline`.
+* Run the pipeline and monitor deployment logs.
+
+---
+
+## Ansible Playbooks
+
+Currently, only local setup playbooks are available (no AWS provisioning).
+
+To run:
+
+```bash
 ansible-playbook -i localhost, -c local playbooks/install-stack.yml
+```
 
+## Contact
 
-**NOTE: For any issues or questions, contact Praveen Kumar.**
+For any issues or questions, please contact **Praveen Kumar**.
 
 
